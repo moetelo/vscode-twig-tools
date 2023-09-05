@@ -7,6 +7,7 @@ import { PhpParserCached } from './core/PhpParserCached';
 import { TwigComponentUsageParser } from './core/TwigComponentUsageParser';
 import { getFilesRecursively } from './core/fs';
 import { customSpinner } from './console-extensions/spinner';
+import { mapAsync } from './utils/array';
 
 const PROJECT_DIR = '/home/mikhail/projects/some-proj/';
 
@@ -15,14 +16,6 @@ const IGNORED_PHP_FILE_PATHS = [
     '/vendor/',
     '/web/',
 ];
-
-const mapAsync = async <T, U>(arr: T[], fn: (item: T) => Promise<U>): Promise<U[]> => {
-    const result: U[] = [];
-    for (const item of arr) {
-        result.push(await fn(item));
-    }
-    return result;
-};
 
 
 const main = async () => {
