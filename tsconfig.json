@@ -1,13 +1,8 @@
 {
-    "ts-node": {
-        "compilerOptions": {
-            "module": "commonjs"
-        }
-    },
     "compilerOptions": {
         "esModuleInterop": true,
         "module": "ESNext",
-        "moduleResolution": "nodenext",
+        "moduleResolution": "Bundler",
         "target": "ESNext",
     },
 }
