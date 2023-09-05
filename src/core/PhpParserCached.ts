@@ -35,6 +35,10 @@ export class PhpParserCached {
         return this._cache.get(filename);
     }
 
+    invalidate(filename: string) {
+        this._cache.delete(filename);
+    }
+
     parseCode(filename: string): Ast {
         const cachedAst = this._cache.get(filename);
         if (cachedAst) {

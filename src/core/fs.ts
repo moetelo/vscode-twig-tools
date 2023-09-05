@@ -1,3 +1,5 @@
+import 'zx/globals';
+$.verbose = false;
 
 export const findFilesAndRead = (
     filePaths: string[],

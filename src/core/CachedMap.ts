@@ -25,6 +25,11 @@ export class CachedMap<TKey, TValue> {
         return this._map.entries();
     }
 
+    delete(key: TKey) {
+        this._map.delete(key);
+        this.save();
+    }
+
     hasAnyKeys(): boolean {
         return this._map.size > 0;
     }

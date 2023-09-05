@@ -13,12 +13,14 @@ export const findRoutes = async (
 ): Promise<string[]> => {
     const twigPathsContainingComponent = twigComponentUsageParser.getPathsContainingComponent(componentName);
 
-    // console.time('phpFilesContainingTwig');
+    console.log({ twigPathsContainingComponent });
+
     const phpFilesContainingTwig = findFilesAndRead(files, 'Controller.php')
         .filter(php =>
             twigPathsContainingComponent.some(twig => php.content.includes(twig)),
         );
-    // console.timeEnd('phpFilesContainingTwig');
+
+    console.log({ phpFilesContainingTwig });
 
     const routes: string[] = phpFilesContainingTwig.flatMap(phpFile => {
         const phpAst = phpParser.parseCode(phpFile.file);
@@ -26,6 +28,7 @@ export const findRoutes = async (
         return extractRoutesFromClass(phpAst, twigPathsContainingComponent);
     });
 
+    console.log({ routes });
     return routes;
 };
 

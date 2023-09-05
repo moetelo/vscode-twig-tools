@@ -9,13 +9,15 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:html"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "vue-twig.helloWorld",
-        "title": "Hello World"
+        "command": "vue-twig.find-usage",
+        "title": "Find Vue component usage in php"
       }
     ]
   },
