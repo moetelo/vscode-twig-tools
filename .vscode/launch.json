@@ -6,12 +6,17 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Run Extension",
+			"name": "client",
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}"
+				"--extensionDevelopmentPath=${workspaceFolder}",
+				"--disable-extensions",
 			],
+			"internalConsoleOptions": "neverOpen",
+			"sourceMaps": true,
+			"smartStep": true,
+			"skipFiles": ["<node_internals>/**"],
 			"outFiles": [
 				"${workspaceFolder}/dist/**/*.js"
 			],
