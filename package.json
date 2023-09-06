@@ -16,24 +16,24 @@
   "contributes": {
     "snippets": [
 			{
-				"language": "html",
+				"language": "twig",
 				"path": "./twig/snippets/filters.json"
 			},
 			{
-				"language": "html",
+				"language": "twig",
 				"path": "./twig/snippets/twig.json"
 			},
 			{
-				"language": "html",
+				"language": "twig",
 				"path": "./twig/snippets/functions.json"
 			}
 		],
 		"languages": [
 			{
-				"id": "html",
+				"id": "twig",
 				"aliases": [
-					"HTML",
-					"twig"
+					"Twig",
+					"html.twig"
 				],
 				"extensions": [
 					".twig",
@@ -44,7 +44,7 @@
 		],
 		"grammars": [
 			{
-				"language": "html",
+				"language": "twig",
 				"scopeName": "text.html.twig",
 				"path": "./twig/syntaxes/twig.tmLanguage"
 			}
