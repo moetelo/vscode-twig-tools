@@ -12,7 +12,7 @@ const IGNORED_PHP_FILE_PATHS = [
 ];
 
 
-export async function findUsage(parsers: { twigComponentUsageParser: TwigComponentUsageParser, phpParser: PhpParserCached }) {
+export async function findUsage(twigComponentUsageParser: TwigComponentUsageParser, phpParser: PhpParserCached) {
     const PROJECT_DIR = vscode.workspace.workspaceFolders[0].uri.fsPath;
 
     const selectedText = getSelectedTextIfOnlyOneSelection();
@@ -25,7 +25,7 @@ export async function findUsage(parsers: { twigComponentUsageParser: TwigCompone
     const files = await getFilesRecursively(PROJECT_DIR);
     const filesFromAllowedDirectories = files.filter(f => !IGNORED_PHP_FILE_PATHS.some(ip => f.includes(ip)));
 
-    const routes = await findRoutes(parsers.phpParser, parsers.twigComponentUsageParser, filesFromAllowedDirectories, selectedText);
+    const routes = await findRoutes(phpParser, twigComponentUsageParser, filesFromAllowedDirectories, selectedText);
 
     const panel = vscode.window.createWebviewPanel(
         'catCoding', // Identifies the type of the webview. Used internally
