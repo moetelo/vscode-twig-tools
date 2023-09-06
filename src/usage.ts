@@ -13,22 +13,17 @@ export const findRoutes = async (
 ): Promise<string[]> => {
     const twigPathsContainingComponent = twigComponentUsageParser.getPathsContainingComponent(componentName);
 
-    console.log({ twigPathsContainingComponent });
-
-    const phpFilesContainingTwig = findFilesAndRead(files, 'Controller.php')
+    const phpFilesContainingTwigPaths = findFilesAndRead(files, 'Controller.php')
         .filter(php =>
-            twigPathsContainingComponent.some(twig => php.content.includes(twig)),
+            twigPathsContainingComponent.some(twigTemplatePath => php.content.includes(twigTemplatePath)),
         );
 
-    console.log({ phpFilesContainingTwig });
-
-    const routes: string[] = phpFilesContainingTwig.flatMap(phpFile => {
+    const routes: string[] = phpFilesContainingTwigPaths.flatMap(phpFile => {
         const phpAst = phpParser.parseCode(phpFile.file);
 
         return extractRoutesFromClass(phpAst, twigPathsContainingComponent);
     });
 
-    console.log({ routes });
     return routes;
 };
 

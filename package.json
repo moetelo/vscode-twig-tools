@@ -52,7 +52,11 @@
     "commands": [
       {
         "command": "vue-twig.find-usage",
-        "title": "Find Vue component usage in php"
+        "title": "Twig: Find Vue component usage in php"
+      },
+      {
+        "command": "vue-twig.get-affected-routes",
+        "title": "Twig: Get affected routes"
       }
     ]
   },
