@@ -14,6 +14,41 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "snippets": [
+			{
+				"language": "html",
+				"path": "./twig/snippets/filters.json"
+			},
+			{
+				"language": "html",
+				"path": "./twig/snippets/twig.json"
+			},
+			{
+				"language": "html",
+				"path": "./twig/snippets/functions.json"
+			}
+		],
+		"languages": [
+			{
+				"id": "html",
+				"aliases": [
+					"HTML",
+					"twig"
+				],
+				"extensions": [
+					".twig",
+					".html"
+				],
+				"configuration": "./twig/twig.configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "html",
+				"scopeName": "text.html.twig",
+				"path": "./twig/syntaxes/twig.tmLanguage"
+			}
+		],
     "commands": [
       {
         "command": "vue-twig.find-usage",
