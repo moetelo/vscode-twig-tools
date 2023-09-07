@@ -13,13 +13,6 @@ export const getModifiedVueFiles = (gitProjectPath: string, comparedBranch: stri
     return modifiedFiles.stdout.match(/[^\n]+/g);
 });
 
-export const getCommitHash = (gitProjectPath: string): Promise<string> => within(async () => {
-    cd(gitProjectPath);
-    const commitHash = await $`git rev-parse HEAD`;
-
-    return commitHash.stdout.trim();
-});
-
 export const getBranches = (gitProjectPath: string): Promise<string[]> => within(async () => {
     cd(gitProjectPath);
     const branches = await $`git for-each-ref --sort -committerdate --format "%(refname:short)"`;

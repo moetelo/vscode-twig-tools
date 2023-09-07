@@ -13,6 +13,7 @@ export const findRoutes = async (
     const twigPathsContainingComponent = twigComponentUsageParser.getPathsContainingComponent(componentName);
 
     const phpFilesContainingTwigPaths = files
+        .filter(file => file.endsWith('.php'))
         .map(file => ({
             file,
             content: fs.readFileSync(file, 'utf8'),

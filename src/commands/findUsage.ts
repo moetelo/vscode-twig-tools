@@ -6,8 +6,6 @@ import { findRoutes } from '../usage';
 
 
 export async function findUsage(twigComponentUsageParser: TwigComponentUsageParser, phpParser: PhpParserCached) {
-    const projectDir = vscode.workspace.workspaceFolders[0].uri.fsPath;
-
     const componentName = getSelectedTextIfOnlyOneSelection();
 
     if (!componentName) {
@@ -22,8 +20,6 @@ export async function findUsage(twigComponentUsageParser: TwigComponentUsagePars
         title,
         cancellable: false,
     }, async (progress) => {
-        progress.report({ message: 'Getting files' });
-
         const filesFromAllowedDirectories = await vscode.workspace.findFiles('**/*{Controller.php,.html.twig}');
 
         progress.report({ message: `Found ${filesFromAllowedDirectories.length} files.\n Searching routes` });

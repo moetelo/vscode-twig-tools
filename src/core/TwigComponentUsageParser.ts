@@ -1,21 +1,19 @@
 import * as vscode from 'vscode';
 
-import { CachedMap } from './CachedMap';
 
 export class TwigComponentUsageParser {
-    private _cache: CachedMap<string, string[]>;
-    private _components: string[];
+    private readonly _cache: Map<string, string[]> = new Map();
+    private readonly _components: Set<string>;
 
-    constructor(cacheJsonFilePath: string, components: string[]) {
-        this._cache = new CachedMap(cacheJsonFilePath);
-        this._components = components;
+    constructor(components: Iterable<string>) {
+        this._components = new Set(components);
     }
 
     async initialize() {
         const twigFilePaths = await vscode.workspace.findFiles('templates/**/*.html.twig');
 
-        for (const path of twigFilePaths) {
-            await this._parseComponentUsage(path.fsPath);
+        for (const uri of twigFilePaths) {
+            await this._parseComponentUsage(uri.path);
         }
     }
 
@@ -41,6 +39,6 @@ export class TwigComponentUsageParser {
     }
 
     private _parseComponentNames(content: string) {
-        return this._components.filter(componentName => content.includes(`</${componentName}>`));
+        return [...this._components].filter(componentName => content.includes(`</${componentName}>`));
     }
 }

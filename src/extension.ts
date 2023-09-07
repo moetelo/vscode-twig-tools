@@ -5,7 +5,7 @@ import * as vscode from 'vscode';
 import { findUsage } from './commands/findUsage';
 import { PhpParserCached } from './core/PhpParserCached';
 import { TwigComponentUsageParser } from './core/TwigComponentUsageParser';
-import { getCommitHash, getFilesByExtension } from './shell/git';
+import { getFilesByExtension } from './shell/git';
 import { getAffectedRoutesCommand } from './commands/getAffectedRoutes';
 import { createTwigHoverProvider } from './providers/hover';
 import { createTwigCompletionProviders } from './providers/completion';
@@ -32,19 +32,14 @@ export const activate = (context: vscode.ExtensionContext) => vscode.window.with
     context.subscriptions.push(...await createTwigCompletionProviders());
 
     reportProgress('php parser');
-    const commitHash = await getCommitHash(PROJECT_DIR);
-    const phpParser = new PhpParserCached(`${EXTENSION_ROOT}/cache/${commitHash}/phpAst.json`);
+    const phpParser = new PhpParserCached();
 
     reportProgress('vue files');
     const vueFiles = await getFilesByExtension(PROJECT_DIR, 'vue');
     const vueComponentNames = vueFiles.map(f => f.split('/').at(-1).split('.')[0]);
-    await fs.mkdir(`${EXTENSION_ROOT}/cache/${commitHash}`, { recursive: true });
 
     reportProgress('twigComponentUsageParser');
-    const twigComponentUsageParser = new TwigComponentUsageParser(
-        `${EXTENSION_ROOT}/cache/${commitHash}/twigComponentUsage.json`,
-        vueComponentNames,
-    );
+    const twigComponentUsageParser = new TwigComponentUsageParser(vueComponentNames);
     await twigComponentUsageParser.initialize();
 
     context.subscriptions.push(

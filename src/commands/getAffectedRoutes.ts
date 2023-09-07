@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { PhpParserCached } from '../core/PhpParserCached';
 import { TwigComponentUsageParser } from '../core/TwigComponentUsageParser';
-import { getModifiedVueFiles, getCommitHash, getBranches } from '../shell/git';
+import { getModifiedVueFiles, getBranches } from '../shell/git';
 import { findRoutes } from '../usage';
 import { mapAsync } from '../utils/array';
 
@@ -74,14 +74,13 @@ const getAffectedRoutes = async (
     const vueFiles = await getModifiedVueFiles(projectDir, comparedBranch, sourceBranch);
     const vueComponentNames = vueFiles.map(f => f.split('/').at(-1).split('.')[0]);
 
-
     const filesFromAllowedDirectories = await vscode.workspace.findFiles('**/*{Controller.php,.html.twig}');
 
     const componentsWithAffectedRoutes = await mapAsync(
         vueComponentNames,
         async componentName => ({
             componentName,
-            routes: await findRoutes(phpParser, twigComponentUsageParser, filesFromAllowedDirectories.map(x => x.fsPath), componentName),
+            routes: await findRoutes(phpParser, twigComponentUsageParser, filesFromAllowedDirectories.map(x => x.path), componentName),
         }),
     );
 
