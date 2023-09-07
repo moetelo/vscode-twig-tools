@@ -45,15 +45,6 @@ export class TwigComponentUsageParser {
     }
 
     private _parseComponentNames(content: string) {
-        const componentNames: string[] = [];
-
-        for (const componentName of this._components) {
-            if (content.includes(`</${componentName}>`)) {
-                componentNames.push(componentName);
-            }
-        }
-
-        return componentNames;
+        return this._components.filter(componentName => content.includes(`</${componentName}>`));
     }
-
 }
