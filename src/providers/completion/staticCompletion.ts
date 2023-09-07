@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 
-import { TWIG_LANGUAGE_ID, snippets } from '../constants';
+import { TWIG_LANGUAGE_ID, snippets } from '../../constants';
+
 
 export const createTwigStaticCompletionProvider = () => {
     const snippetCompletionItems = snippets
