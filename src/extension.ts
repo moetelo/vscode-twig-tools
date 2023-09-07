@@ -10,9 +10,6 @@ import { getAffectedRoutesCommand } from './commands/getAffectedRoutes';
 import { createTwigHoverProvider } from './providers/hover';
 import { createTwigCompletionProviders } from './providers/completion';
 
-// TODO: fix directory
-const EXTENSION_ROOT = './.vscode/extensions/vue-twig';
-
 
 export const activate = (context: vscode.ExtensionContext) => vscode.window.withProgress({
     location: vscode.ProgressLocation.Notification,
@@ -33,6 +30,7 @@ export const activate = (context: vscode.ExtensionContext) => vscode.window.with
 
     reportProgress('php parser');
     const phpParser = new PhpParserCached();
+    context.subscriptions.push(phpParser);
 
     reportProgress('vue files');
     const vueFiles = await getFilesByExtension(PROJECT_DIR, 'vue');
@@ -40,6 +38,7 @@ export const activate = (context: vscode.ExtensionContext) => vscode.window.with
 
     reportProgress('twigComponentUsageParser');
     const twigComponentUsageParser = new TwigComponentUsageParser(vueComponentNames);
+    context.subscriptions.push(twigComponentUsageParser);
     await twigComponentUsageParser.initialize();
 
     context.subscriptions.push(
