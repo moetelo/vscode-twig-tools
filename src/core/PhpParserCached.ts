@@ -1,11 +1,8 @@
-import { Engine } from 'php-parser';
-import type { Ast } from '../declarations/php-parser';
-
-export { Ast };
+import { Engine, Program } from 'php-parser';
 
 
 export class PhpParserCached {
-    private readonly _cache = new Map<string, Ast>();
+    private readonly _cache = new Map<string, Program>();
 
     private readonly _engine = new Engine({
         parser: {
@@ -24,7 +21,7 @@ export class PhpParserCached {
         this._cache.set(filename, ast);
     }
 
-    parseCode(filename: string): Ast {
+    parseCode(filename: string) {
         const cachedAst = this._cache.get(filename);
         if (cachedAst) {
             return cachedAst;
@@ -35,7 +32,7 @@ export class PhpParserCached {
         return ast;
     }
 
-    _parseWithoutCache(filename: string): Ast {
+    _parseWithoutCache(filename: string) {
         const code = fs.readFileSync(filename, 'utf8');
         return this._engine.parseCode(code, filename);
     }
