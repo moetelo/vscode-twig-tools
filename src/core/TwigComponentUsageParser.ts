@@ -1,5 +1,5 @@
 import { CachedMap } from './CachedMap';
-import { getFilesRecursively } from './fs';
+import { getFilesRecursively } from '../shell/fs';
 
 export class TwigComponentUsageParser {
     private _cache: CachedMap<string, string[]>;

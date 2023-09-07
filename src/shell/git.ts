@@ -1,5 +1,3 @@
-import 'zx/globals';
-$.verbose = false;
 
 export const getFilesByExtension = (gitProjectPath: string, ext: string): Promise<string[]> => within(async () => {
     cd(gitProjectPath);

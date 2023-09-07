@@ -3,7 +3,7 @@ import { getSelectedTextIfOnlyOneSelection } from '../vscode-extensions';
 import { PhpParserCached } from '../core/PhpParserCached';
 import { TwigComponentUsageParser } from '../core/TwigComponentUsageParser';
 import { findRoutes } from '../usage';
-import { getFilesRecursively } from '../core/fs';
+import { getFilesRecursively } from '../shell/fs';
 
 const IGNORED_PHP_FILE_PATHS = [
     '/var/cache/',

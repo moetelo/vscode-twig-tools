@@ -1,7 +1,7 @@
 import 'zx/globals';
 
 import { PhpParserCached, Ast } from './core/PhpParserCached';
-import { findFilesAndRead } from './core/fs';
+import { findFilesAndRead } from './shell/fs';
 import { TwigComponentUsageParser } from './core/TwigComponentUsageParser';
 
 

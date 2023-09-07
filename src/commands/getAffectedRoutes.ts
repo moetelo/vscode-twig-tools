@@ -1,8 +1,8 @@
 import * as vscode from 'vscode';
 import { PhpParserCached } from '../core/PhpParserCached';
 import { TwigComponentUsageParser } from '../core/TwigComponentUsageParser';
-import { getFilesRecursively } from '../core/fs';
-import { getModifiedVueFiles, getCommitHash, getBranches } from '../core/git';
+import { getFilesRecursively } from '../shell/fs';
+import { getModifiedVueFiles, getCommitHash, getBranches } from '../shell/git';
 import { findRoutes } from '../usage';
 import { mapAsync } from '../utils/array';
 
