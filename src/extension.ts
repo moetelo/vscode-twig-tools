@@ -9,6 +9,7 @@ import { getFilesByExtension } from './shell/git';
 import { getAffectedRoutesCommand } from './commands/getAffectedRoutes';
 import { createTwigHoverProvider } from './providers/hover';
 import { createTwigCompletionProviders } from './providers/completion';
+import { createPhpTwigDefinitionProvider } from './providers/definition';
 
 
 export const activate = (context: vscode.ExtensionContext) => vscode.window.withProgress({
@@ -25,12 +26,13 @@ export const activate = (context: vscode.ExtensionContext) => vscode.window.with
     context.subscriptions.push(createTwigHoverProvider());
 
     reportProgress('registering twig completion provider');
-
     context.subscriptions.push(...await createTwigCompletionProviders());
 
     reportProgress('php parser');
     const phpParser = new PhpParserCached();
     context.subscriptions.push(phpParser);
+
+    context.subscriptions.push(createPhpTwigDefinitionProvider(phpParser));
 
     reportProgress('vue files');
     const vueFiles = await getFilesByExtension(PROJECT_DIR, 'vue');

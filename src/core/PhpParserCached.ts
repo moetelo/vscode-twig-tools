@@ -1,7 +1,37 @@
 import * as vscode from 'vscode';
-import { Engine, Program } from 'php-parser';
+import { Class, Engine, Method, Namespace, Program, Node as PhpNode, Block } from 'php-parser';
 
 import { DisposableLike } from '../vscode-extensions';
+
+export const getChildren = (node: PhpNode) => {
+    const anyNode = node as any;
+    return anyNode.children
+        || anyNode.body?.children
+        || Array.isArray(anyNode.body) && anyNode.body
+        || anyNode.arguments
+        || anyNode.expr && [ anyNode.expr ];
+};
+
+export const findTraverse = (node: PhpNode, condition: (node: PhpNode) => boolean) => {
+    if (condition(node)) {
+        return node;
+    }
+
+    const children = getChildren(node);
+
+    if (!children) {
+        return null;
+    }
+
+    for (const child of children) {
+        const found = findTraverse(child, condition);
+        if (found) {
+            return found;
+        }
+    }
+
+    return null;
+};
 
 
 export class PhpParserCached implements DisposableLike {
