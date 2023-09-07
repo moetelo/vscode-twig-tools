@@ -45,7 +45,7 @@ export const activate = (context: vscode.ExtensionContext) => vscode.window.with
         `${EXTENSION_ROOT}/cache/${commitHash}/twigComponentUsage.json`,
         vueComponentNames,
     );
-    await twigComponentUsageParser.initialize(PROJECT_DIR + '/templates');
+    await twigComponentUsageParser.initialize();
 
     context.subscriptions.push(
         vscode.commands.registerCommand('vue-twig.find-usage', () => findUsage(twigComponentUsageParser, phpParser)),

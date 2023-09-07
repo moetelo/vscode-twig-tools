@@ -3,7 +3,6 @@ import { getSelectedTextIfOnlyOneSelection } from '../vscode-extensions';
 import { PhpParserCached } from '../core/PhpParserCached';
 import { TwigComponentUsageParser } from '../core/TwigComponentUsageParser';
 import { findRoutes } from '../usage';
-import { getFilesRecursively } from '../core/fs';
 
 
 export async function findUsage(twigComponentUsageParser: TwigComponentUsageParser, phpParser: PhpParserCached) {
@@ -25,12 +24,10 @@ export async function findUsage(twigComponentUsageParser: TwigComponentUsagePars
     }, async (progress) => {
         progress.report({ message: 'Getting files' });
 
-        const filesFromAllowedDirectories = await getFilesRecursively(projectDir, {
-            extensions: ['Controller.php', '.html.twig'],
-        });
+        const filesFromAllowedDirectories = await vscode.workspace.findFiles('**/*{Controller.php,.html.twig}');
 
         progress.report({ message: `Found ${filesFromAllowedDirectories.length} files.\n Searching routes` });
-        const routes = await findRoutes(phpParser, twigComponentUsageParser, filesFromAllowedDirectories, componentName);
+        const routes = await findRoutes(phpParser, twigComponentUsageParser, filesFromAllowedDirectories.map(x => x.fsPath), componentName);
 
         if (!routes.length) {
             vscode.window.showErrorMessage(`No routes found for ${componentName}`);

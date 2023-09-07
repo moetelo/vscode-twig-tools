@@ -1,5 +1,6 @@
+import * as vscode from 'vscode';
+
 import { CachedMap } from './CachedMap';
-import { getFilesRecursively } from './fs';
 
 export class TwigComponentUsageParser {
     private _cache: CachedMap<string, string[]>;
@@ -10,13 +11,11 @@ export class TwigComponentUsageParser {
         this._components = components;
     }
 
-    async initialize(templatesDir: string) {
-        const twigFilePaths = await getFilesRecursively(templatesDir, {
-            extensions: [ '.html.twig' ]
-        });
+    async initialize() {
+        const twigFilePaths = await vscode.workspace.findFiles('templates/**/*.html.twig');
 
         for (const path of twigFilePaths) {
-            await this._parseComponentUsage(path);
+            await this._parseComponentUsage(path.fsPath);
         }
     }
 
