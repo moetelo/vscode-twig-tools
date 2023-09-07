@@ -112,30 +112,61 @@ export const createTwigCompletionProviders = async (): Promise<vscode.Disposable
     return [
         createFunctionLikeCompletionProvider(sections.Functions, '{{'),
         createFunctionLikeCompletionProvider(sections.Filters, '|'),
+        createVariableCompletionProvider(sections.Globals, '{{'),
     ];
 };
 
+const createContextChecker = (trigger: string) => {
+    const triggerRegex = new RegExp(`${escapeForRegex(trigger)}\\s*([a-zA-Z_][a-zA-Z0-9_]*)?$`, 'g');
+    const endsWithTriggerFollowedByWords = (text: string) => triggerRegex.test(text);
 
-const createFunctionLikeCompletionProvider = (functions: TwigFunctionLike[], triggerString: string): vscode.Disposable => {
-    const triggerRegex = new RegExp(`${escapeForRegex(triggerString)}\\s*([a-zA-Z_][a-zA-Z0-9_]*)?$`, 'g');
-    const endsWithTriggerStringFollowedByWords = (text: string) => triggerRegex.test(text);
+    return (document: vscode.TextDocument, position: vscode.Position) => {
+        const start = new vscode.Position(position.line, 0);
+        const range = new vscode.Range(start, position);
+        const text = document.getText(range);
+
+        return endsWithTriggerFollowedByWords(text);
+    };
+};
+
+
+const createVariableCompletionProvider = (variables: TwigVariable[], trigger: string): vscode.Disposable => {
+    const endsWithTriggerFollowedByWords = createContextChecker(trigger);
+
+    const completions = variables.map((variable) => {
+        const item = new vscode.CompletionItem(variable.identifier, vscode.CompletionItemKind.Variable);
+
+        item.detail = variable.value;
+
+        return item;
+    });
+
+    return vscode.languages.registerCompletionItemProvider(TWIG_LANGUAGE_ID, {
+        provideCompletionItems(document, position, _token) {
+            if (!endsWithTriggerFollowedByWords(document, position)) {
+                return [];
+            }
+
+            console.log(`triggered ${trigger}`);
+
+            return completions;
+        },
+    });
+};
+
+
+const createFunctionLikeCompletionProvider = (functions: TwigFunctionLike[], trigger: string): vscode.Disposable => {
+    const endsWithTriggerFollowedByWords = createContextChecker(trigger);
 
     const completions = functions.map((func) => new vscode.CompletionItem(func.identifier, vscode.CompletionItemKind.Function));
 
     return vscode.languages.registerCompletionItemProvider(TWIG_LANGUAGE_ID, {
-        resolveCompletionItem: (item, _token) => {
-            return item;
-        },
         provideCompletionItems(document, position, _token) {
-            const start = new vscode.Position(position.line, 0);
-            const range = new vscode.Range(start, position);
-            const text = document.getText(range);
-
-            if (!endsWithTriggerStringFollowedByWords(text)) {
+            if (!endsWithTriggerFollowedByWords(document, position)) {
                 return [];
             }
 
-            console.log(`'${text}' triggered ${triggerString}`);
+            console.log(`triggered ${trigger}`);
 
             return completions;
         },
