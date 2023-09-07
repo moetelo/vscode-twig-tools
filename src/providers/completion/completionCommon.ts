@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-import { TWIG_LANGUAGE_ID } from '../../constants';
+import { LanguageId } from '../../constants';
 import { escapeForRegex } from '../../utils/regex';
 import { TwigVariable, TwigFunctionLike } from './types';
 
@@ -32,7 +32,7 @@ export const createVariableCompletionProvider = (variables: TwigVariable[], trig
         return item;
     });
 
-    return vscode.languages.registerCompletionItemProvider(TWIG_LANGUAGE_ID, {
+    return vscode.languages.registerCompletionItemProvider(LanguageId.Twig, {
         provideCompletionItems(document, position, _token) {
             if (!endsWithTriggerFollowedByWords(document, position)) {
                 return [];
@@ -74,7 +74,7 @@ export const createFunctionLikeCompletionProvider = (functions: TwigFunctionLike
         return item;
     });
 
-    return vscode.languages.registerCompletionItemProvider(TWIG_LANGUAGE_ID, {
+    return vscode.languages.registerCompletionItemProvider(LanguageId.Twig, {
         provideCompletionItems(document, position, _token) {
             if (!endsWithTriggerFollowedByWords(document, position)) {
                 return [];

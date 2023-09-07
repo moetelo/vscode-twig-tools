@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-import { TWIG_LANGUAGE_ID, snippets } from '../../constants';
+import { LanguageId, snippets } from '../../constants';
 
 
 export const createTwigStaticCompletionProvider = () => {
@@ -18,7 +18,7 @@ export const createTwigStaticCompletionProvider = () => {
             return item;
         });
 
-    return vscode.languages.registerCompletionItemProvider(TWIG_LANGUAGE_ID, {
+    return vscode.languages.registerCompletionItemProvider(LanguageId.Twig, {
         provideCompletionItems: () => snippetCompletionItems,
     });
 };
