@@ -5,9 +5,14 @@ import { SymfonyCommand, executeSymfonyCommand, isDockerInstalled } from '../she
 import { createTwigStaticCompletionProvider } from './staticCompletion';
 import { escapeForRegex } from '../utils/regex';
 
+type FunctionArgument = {
+    identifier: string,
+    defaultValue?: string,
+};
+
 type TwigFunctionLike = {
     identifier: string;
-    arguments: string[];
+    arguments: FunctionArgument[];
 };
 
 type TwigVariable = {
@@ -81,7 +86,15 @@ const parseSections = (input: string): TwigDebugSections => {
                     continue;
                 }
 
-                const argsArr = (args || '').split(',').map((arg) => arg.trim());
+                const argsArr = (args || '').split(',').map((arg) => arg.trim())
+                    .map((arg) => {
+                        const [identifier, defaultValue] = arg.split('=');
+                        return {
+                            identifier,
+                            defaultValue,
+                        };
+                    });
+
                 section.push({
                     identifier,
                     arguments: argsArr,
@@ -137,6 +150,8 @@ const createVariableCompletionProvider = (variables: TwigVariable[], trigger: st
         const item = new vscode.CompletionItem(variable.identifier, vscode.CompletionItemKind.Variable);
 
         item.detail = variable.value;
+        item.documentation = variable.value;
+        item.commitCharacters = ['|', '.'];
 
         return item;
     });
@@ -151,14 +166,37 @@ const createVariableCompletionProvider = (variables: TwigVariable[], trigger: st
 
             return completions;
         },
-    });
+    }, trigger);
 };
 
 
 const createFunctionLikeCompletionProvider = (functions: TwigFunctionLike[], trigger: string): vscode.Disposable => {
     const endsWithTriggerFollowedByWords = createContextChecker(trigger);
 
-    const completions = functions.map((func) => new vscode.CompletionItem(func.identifier, vscode.CompletionItemKind.Function));
+    // meh
+    const isFilter = trigger === '|';
+
+    const completions = functions.map((func) => {
+        const item = new vscode.CompletionItem(func.identifier, vscode.CompletionItemKind.Function);
+
+        if (isFilter) {
+            item.detail = func.identifier;
+            item.insertText = func.identifier;
+        } else {
+            const requiredArguments = func.arguments.filter((arg) => !arg.defaultValue);
+            const optionalArguments = func.arguments.filter((arg) => arg.defaultValue);
+
+            const requiredArgumentsRepr = requiredArguments.map((arg) => arg.identifier).join(', ');
+            const optionalArgumentsRepr = optionalArguments.length
+                ? ', [' + optionalArguments.map((arg) => `${arg.identifier} = ${arg.defaultValue}`).join(', ') + ']'
+                : '';
+
+            item.detail = `${func.identifier}(${requiredArgumentsRepr}${optionalArgumentsRepr})`;
+            item.insertText = new vscode.SnippetString(`${func.identifier}(${requiredArguments.map((arg, i) => `\${${i + 1}:${arg.identifier}}`).join(', ')})`);
+        }
+
+        return item;
+    });
 
     return vscode.languages.registerCompletionItemProvider(TWIG_LANGUAGE_ID, {
         provideCompletionItems(document, position, _token) {
@@ -170,5 +208,5 @@ const createFunctionLikeCompletionProvider = (functions: TwigFunctionLike[], tri
 
             return completions;
         },
-    });
+    }, trigger);
 };
