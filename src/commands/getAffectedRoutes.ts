@@ -1,16 +1,11 @@
 import * as vscode from 'vscode';
 import { PhpParserCached } from '../core/PhpParserCached';
 import { TwigComponentUsageParser } from '../core/TwigComponentUsageParser';
-import { getFilesRecursively } from '../shell/fs';
+import { getFilesRecursively } from '../core/fs';
 import { getModifiedVueFiles, getCommitHash, getBranches } from '../shell/git';
 import { findRoutes } from '../usage';
 import { mapAsync } from '../utils/array';
 
-const IGNORED_PHP_FILE_PATHS = [
-    '/var/cache/',
-    '/vendor/',
-    '/web/',
-];
 
 export const getAffectedRoutesCommand = async (twigComponentUsageParser: TwigComponentUsageParser, phpParser: PhpParserCached) => {
     const projectDir = vscode.workspace.workspaceFolders[0].uri.fsPath;
@@ -80,12 +75,9 @@ const getAffectedRoutes = async (
     const vueFiles = await getModifiedVueFiles(projectDir, comparedBranch, sourceBranch);
     const vueComponentNames = vueFiles.map(f => f.split('/').at(-1).split('.')[0]);
 
-    const files = await getFilesRecursively(projectDir);
-    const filesFromAllowedDirectories = files.filter(f => !IGNORED_PHP_FILE_PATHS.some(ip => f.includes(ip)));
-
-    const commitHash = await getCommitHash(projectDir);
-
-    fs.mkdir(`./cache/${commitHash}`, { recursive: true });
+    const filesFromAllowedDirectories = await getFilesRecursively(projectDir, {
+        extensions: ['Controller.php', '.html.twig'],
+    });
 
     const componentsWithAffectedRoutes = await mapAsync(
         vueComponentNames,

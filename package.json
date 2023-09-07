@@ -15,40 +15,40 @@
   "main": "./dist/extension.js",
   "contributes": {
     "snippets": [
-			{
-				"language": "twig",
-				"path": "./twig/snippets/filters.json"
-			},
-			{
-				"language": "twig",
-				"path": "./twig/snippets/twig.json"
-			},
-			{
-				"language": "twig",
-				"path": "./twig/snippets/functions.json"
-			}
-		],
-		"languages": [
-			{
-				"id": "twig",
-				"aliases": [
-					"Twig",
-					"html.twig"
-				],
-				"extensions": [
-					".twig",
-					".html"
-				],
-				"configuration": "./twig/twig.configuration.json"
-			}
-		],
-		"grammars": [
-			{
-				"language": "twig",
-				"scopeName": "text.html.twig",
-				"path": "./twig/syntaxes/twig.tmLanguage"
-			}
-		],
+      {
+        "language": "twig",
+        "path": "./twig/snippets/filters.json"
+      },
+      {
+        "language": "twig",
+        "path": "./twig/snippets/twig.json"
+      },
+      {
+        "language": "twig",
+        "path": "./twig/snippets/functions.json"
+      }
+    ],
+    "languages": [
+      {
+        "id": "twig",
+        "aliases": [
+          "Twig",
+          "html.twig"
+        ],
+        "extensions": [
+          ".twig",
+          ".html"
+        ],
+        "configuration": "./twig/twig.configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "twig",
+        "scopeName": "text.html.twig",
+        "path": "./twig/syntaxes/twig.tmLanguage"
+      }
+    ],
     "commands": [
       {
         "command": "vue-twig.find-usage",
@@ -72,22 +72,22 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.81.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "18.8.3",
+    "@types/node-dir": "^0.0.34",
+    "@types/vscode": "^1.81.0",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.1",
-    "php-parser": "^3.1.4",
-    "zx": "^7.2.3",
-    "@types/node-dir": "^0.0.34",
-    "tsup": "^7.2.0",
+    "@vscode/test-electron": "^2.3.4",
     "eslint": "^8.47.0",
-    "glob": "^10.3.3",
+    "glob": "^10.3.4",
     "mocha": "^10.2.0",
-    "typescript": "^5.1.6",
+    "php-parser": "^3.1.4",
     "ts-loader": "^9.4.4",
+    "tsup": "^7.2.0",
+    "typescript": "^5.1.6",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
-    "@vscode/test-electron": "^2.3.4"
+    "zx": "^7.2.3"
   }
 }

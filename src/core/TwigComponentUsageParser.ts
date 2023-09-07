@@ -1,5 +1,5 @@
 import { CachedMap } from './CachedMap';
-import { getFilesRecursively } from '../shell/fs';
+import { getFilesRecursively } from './fs';
 
 export class TwigComponentUsageParser {
     private _cache: CachedMap<string, string[]>;
@@ -11,24 +11,21 @@ export class TwigComponentUsageParser {
     }
 
     async initialize(templatesDir: string) {
-        const filePaths = await getFilesRecursively(templatesDir);
-        const twigFilePaths = filePaths.filter(f => f.endsWith('.html.twig'));
+        const twigFilePaths = await getFilesRecursively(templatesDir, {
+            extensions: [ '.html.twig' ]
+        });
 
         for (const path of twigFilePaths) {
             await this._parseComponentUsage(path);
         }
     }
 
-    getPathsContainingComponent(componentName: string, treatTemplatesDirAsCwd = true): string[] {
+    getPathsContainingComponent(componentName: string): string[] {
         const paths = [...this._cache.entries()]
             .filter(([_, componentNames]) => componentNames.includes(componentName))
             .map(([path, _]) => path);
 
-        if (treatTemplatesDirAsCwd) {
-            return paths.map(path => path.substring(path.indexOf('templates') + 'templates/'.length));
-        }
-
-        return paths;
+        return paths.map(path => path.substring(path.indexOf('templates') + 'templates/'.length));
     }
 
     private async _parseComponentUsage(twigPath: string): Promise<string[]> {

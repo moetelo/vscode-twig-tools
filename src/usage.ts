@@ -13,7 +13,6 @@ export const findRoutes = async (
     const twigPathsContainingComponent = twigComponentUsageParser.getPathsContainingComponent(componentName);
 
     const phpFilesContainingTwigPaths = files
-        .filter(file => file.endsWith('Controller.php'))
         .map(file => ({
             file,
             content: fs.readFileSync(file, 'utf8'),
@@ -22,7 +21,7 @@ export const findRoutes = async (
             twigPathsContainingComponent.some(twigTemplatePath => php.content.includes(twigTemplatePath)),
         );
 
-    const routes: string[] = phpFilesContainingTwigPaths.flatMap(phpFile => {
+    const routes = phpFilesContainingTwigPaths.flatMap(phpFile => {
         const phpAst = phpParser.parseCode(phpFile.file);
 
         return extractRoutesFromClass(phpAst, twigPathsContainingComponent);
@@ -31,7 +30,7 @@ export const findRoutes = async (
     return routes;
 };
 
-const extractRoutesFromClass = (phpAst: Ast, twigPathsContainingComponent: string[]) => {
+const extractRoutesFromClass = (phpAst: Ast, twigPathsContainingComponent: string[]): string[] => {
     const namespace = phpAst.children.find(x => x.kind === 'namespace');
     if (!namespace) {
         console.error('no namespace found for file');
