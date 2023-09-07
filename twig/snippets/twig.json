@@ -11,38 +11,24 @@
     },
     {
         "prefix": "autoescape",
-        "body": [
-            "{% autoescape %}",
-            "\t$1",
-            "{% endautoescape %}"
-        ],
+        "body": "{% autoescape %}\n\t$1\n{% endautoescape %}",
         "description": "Whether automatic escaping is enabled or not, you can mark a section of a template to be escaped or not by using the autoescape tag",
         "example": "{% autoescape %}\n    Everything will be automatically escaped in this block\n    using the HTML strategy\n{% endautoescape %}\n\n{% autoescape 'html' %}\n    Everything will be automatically escaped in this block\n    using the HTML strategy\n{% endautoescape %}\n\n{% autoescape 'js' %}\n    Everything will be automatically escaped in this block\n    using the js escaping strategy\n{% endautoescape %}\n\n{% autoescape false %}\n    Everything will be outputted as is in this block\n{% endautoescape %}"
     },
     {
         "prefix": "block",
-        "body": [
-            "{% block ${name} %}",
-            "\t$1",
-            "{% endblock ${name} %}"
-        ],
+        "body": "{% block ${name} %}\n\t$1\n{% endblock ${name} %}",
         "description": "When a template uses inheritance and if you want to print a block multiple times, use the block function"
     },
     {
         "prefix": "do",
-        "body": [
-            "{% do $1 %}"
-        ],
+        "body": "{% do $1 %}",
         "description": "The do tag works exactly like the regular variable expression ({{ ... }}) just that it doesn't print anything",
         "example": "{% do 1 + 2 %}"
     },
     {
         "prefix": "embed",
-        "body": [
-            "{% embed \"${filename}.twig\" %}",
-            "\t$1",
-            "{% endembed  %}"
-        ],
+        "body": "{% embed \"${filename}.twig\" %}\n\t$1\n{% endembed  %}",
         "description": "The embed tag combines the behaviour of include and extends. It allows you to include another template's contents, just like include does. But it also allows you to override any block defined inside the included template, like when extending a template"
     },
     {
@@ -52,60 +38,34 @@
     },
     {
         "prefix": "filter",
-        "body": [
-            "{% filter ${filter name} %}",
-            "\t$1",
-            "{% endfilter  %}"
-        ],
+        "body": "{% filter ${filter name} %}\n\t$1\n{% endfilter  %}",
         "description": "Filter sections allow you to apply regular Twig filters on a block of template data. Just wrap the code in the special filter section",
         "example": "{% filter lower|escape %}\n    <strong>SOME TEXT</strong>\n{% endfilter %}\n\n{# outputs \"&lt;strong&gt;some text&lt;/strong&gt;\" #}"
     },
     {
         "prefix": "flush",
-        "body": [
-            "{% flush %}"
-        ],
+        "body": "{% flush %}",
         "description": "The flush tag tells Twig to flush the output buffer",
         "example": "{% flush %}"
     },
     {
         "prefix": "for",
-        "body": [
-            "{% for ${row} in ${array} %}",
-            "\t$1",
-            "{% endfor %}"
-        ],
+        "body": "{% for ${row} in ${array} %}\n\t$1\n{% endfor %}",
         "description": "Loop over each item in a sequence"
     },
     {
         "prefix": "for if",
-        "body": [
-            "{% for ${row} in ${array} if ${condition} %}",
-            "\t$1",
-            "{% endfor %}"
-        ],
+        "body": "{% for ${row} in ${array} if ${condition} %}\n\t$1\n{% endfor %}",
         "description": "Loop over each item in a sequence"
     },
     {
         "prefix": "for else",
-        "body": [
-            "{% for ${row} in ${array} %}",
-            "\t$1",
-            "{% else %}",
-            "\t$2",
-            "{% endfor %}"
-        ],
+        "body": "{% for ${row} in ${array} %}\n\t$1\n{% else %}\n\t$2\n{% endfor %}",
         "description": "Loop over each item in a sequence"
     },
     {
         "prefix": "for if else",
-        "body": [
-            "{% for ${row} in ${array} if ${condition} %}",
-            "\t$1",
-            "{% else %}",
-            "\t$2",
-            "{% endfor %}"
-        ],
+        "body": "{% for ${row} in ${array} if ${condition} %}\n\t$1\n{% else %}\n\t$2\n{% endfor %}",
         "description": "Loop over each item in a sequence"
     },
     {
@@ -115,22 +75,12 @@
     },
     {
         "prefix": "if",
-        "body": [
-            "{% if ${condition} %}",
-            "\t$1",
-            "{% endif %}"
-        ],
+        "body": "{% if ${condition} %}\n\t$1\n{% endif %}",
         "description": "The if statement in Twig is comparable with the if statements of PHP"
     },
     {
         "prefix": "if else",
-        "body": [
-            "{% if ${condition} %}",
-            "\t$1",
-            "{% else %}",
-            "\t$2",
-            "{% endif %}"
-        ],
+        "body": "{% if ${condition} %}\n\t$1\n{% else %}\n\t$2\n{% endif %}",
         "description": "The if statement in Twig is comparable with the if statements of PHP"
     },
     {
@@ -160,45 +110,27 @@
     },
     {
         "prefix": "macro",
-        "body": [
-            "{% macro ${name}($1) %}",
-            "\t$2",
-            "{% endmacro %}"
-        ],
+        "body": "{% macro ${name}($1) %}\n\t$2\n{% endmacro %}",
         "description": "Twig snippets"
     },
     {
         "prefix": "sandbox",
-        "body": [
-            "{% sandbox %}",
-            "\t$1",
-            "{% endsandbox %}"
-        ],
+        "body": "{% sandbox %}\n\t$1\n{% endsandbox %}",
         "description": "The sandbox tag can be used to enable the sandboxing mode for an included template, when sandboxing is not enabled globally for the Twig environment"
     },
     {
         "prefix": "set",
-        "body": [
-            "{% set ${name} = ${value} %}$1"
-        ],
+        "body": "{% set ${name} = ${value} %}$1",
         "description": "Assign values to variables"
     },
     {
         "prefix": "set (block)",
-        "body": [
-            "{% set ${name} %}",
-            "\t$1",
-            "{% endset %}"
-        ],
+        "body": "{% set ${name} %}\n\t$1\n{% endset %}",
         "description": "Inside code blocks you can also assign values to variables. Assignments use the set tag and can have multiple targets"
     },
     {
         "prefix": "spaceless",
-        "body": [
-            "{% spaceless %}",
-            "\t$1",
-            "{% endspaceless %}"
-        ],
+        "body": "{% spaceless %}\n\t$1\n{% endspaceless %}",
         "description": "Use the spaceless tag to remove whitespace between HTML tags, not whitespace within HTML tags or whitespace in plain text"
     },
     {
@@ -208,11 +140,7 @@
     },
     {
         "prefix": "verbatim",
-        "body": [
-            "{% verbatim %}",
-            "\t$1",
-            "{% endverbatim %}"
-        ],
+        "body": "{% verbatim %}\n\t$1\n{% endverbatim %}",
         "description": "The verbatim tag marks sections as being raw text that should not be parsed. For example to put Twig syntax as example into a template you can use this snippet"
     }
 ]

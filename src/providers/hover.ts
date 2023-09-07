@@ -1,10 +1,7 @@
 import * as vscode from 'vscode';
 import { Snippet } from '../types/Snippet';
 
-import snippetsArr from '../../twig/snippets/filters.json';
-import functionsArr from '../../twig/snippets/functions.json';
-import twigArr from '../../twig/snippets/twig.json';
-import { TWIG_LANGUAGE_ID } from '../constants';
+import { TWIG_LANGUAGE_ID, snippets } from '../constants';
 
 function createHover(snippet: Snippet) {
     const example = snippet.example || '';
@@ -26,10 +23,6 @@ export const createTwigHoverProvider = () => vscode.languages.registerHoverProvi
         const range = document.getWordRangeAtPosition(position);
         const word = document.getText(range);
 
-        const hover = findAndCreateHover(snippetsArr, word)
-            || findAndCreateHover(functionsArr, word)
-            || findAndCreateHover(twigArr, word);
-
-        return hover;
+        return findAndCreateHover(snippets, word);
     }
 });

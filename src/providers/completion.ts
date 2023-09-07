@@ -108,11 +108,13 @@ const parseSections = (input: string): TwigDebugSections => {
 
 
 export const createTwigCompletionProviders = async (): Promise<vscode.Disposable[]> => {
+    const providers = [
+        createTwigStaticCompletionProvider(),
+    ];
+
     if (!await isDockerInstalled()) {
         vscode.window.showErrorMessage('Docker is not installed, falling back to static completion.');
-        return [
-            createTwigStaticCompletionProvider(),
-        ];
+        return providers;
     }
 
     const PROJECT_DIR = vscode.workspace.workspaceFolders[0].uri.fsPath;
@@ -122,11 +124,13 @@ export const createTwigCompletionProviders = async (): Promise<vscode.Disposable
 
     console.log(sections);
 
-    return [
+    providers.push(
         createFunctionLikeCompletionProvider(sections.Functions, '{{'),
         createFunctionLikeCompletionProvider(sections.Filters, '|'),
         createVariableCompletionProvider(sections.Globals, '{{'),
-    ];
+    );
+
+    return providers;
 };
 
 const createContextChecker = (trigger: string) => {
