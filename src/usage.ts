@@ -1,7 +1,6 @@
 import 'zx/globals';
 
 import { PhpParserCached, Ast } from './core/PhpParserCached';
-import { findFilesAndRead } from './shell/fs';
 import { TwigComponentUsageParser } from './core/TwigComponentUsageParser';
 
 
@@ -13,7 +12,12 @@ export const findRoutes = async (
 ): Promise<string[]> => {
     const twigPathsContainingComponent = twigComponentUsageParser.getPathsContainingComponent(componentName);
 
-    const phpFilesContainingTwigPaths = findFilesAndRead(files, 'Controller.php')
+    const phpFilesContainingTwigPaths = files
+        .filter(file => file.endsWith('Controller.php'))
+        .map(file => ({
+            file,
+            content: fs.readFileSync(file, 'utf8'),
+        }))
         .filter(php =>
             twigPathsContainingComponent.some(twigTemplatePath => php.content.includes(twigTemplatePath)),
         );
