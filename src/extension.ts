@@ -2,15 +2,13 @@ import 'zx/globals';
 $.verbose = false;
 
 import * as vscode from 'vscode';
-import { findUsage } from './commands/findUsage';
+import { findUsage, getAffectedRoutesCommand } from './commands';
 import { PhpParserCached } from './core/PhpParserCached';
 import { TwigComponentUsageParser } from './core/TwigComponentUsageParser';
 import { getFilesByExtension } from './shell/git';
-import { getAffectedRoutesCommand } from './commands/getAffectedRoutes';
 import { createTwigHoverProvider } from './providers/hover';
 import { createTwigCompletionProviders } from './providers/completion';
-import { createPhpTwigDefinitionProvider } from './providers/definition';
-import { createTwigToTwigDefinitionProvider } from './providers/definition/twigToTwigDefinitionProvider';
+import { createPhpTwigDefinitionProvider, createTwigToTwigDefinitionProvider } from './providers/definition';
 
 
 export const activate = (context: vscode.ExtensionContext) => vscode.window.withProgress({

@@ -1,4 +1,3 @@
-import 'zx/globals';
 import { Call, Class, Literal, Method, Namespace, Program, Return } from 'php-parser';
 
 import { PhpParserCached } from './core/PhpParserCached';
