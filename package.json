@@ -1,13 +1,14 @@
 {
   "name": "twig-tools",
-  "displayName": "twig-tools",
-  "description": "",
+  "displayName": "Twig Tools",
+  "description": "Twig tooling for VS Code",
+  "author": "Mikhail Gunin <mikhail.gunin.a@gmail.com>",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.81.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages"
   ],
   "activationEvents": [
     "*"
