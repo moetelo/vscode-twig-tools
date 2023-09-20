@@ -47,8 +47,8 @@ export const activate = (context: vscode.ExtensionContext) => vscode.window.with
     await twigComponentUsageParser.initialize();
 
     context.subscriptions.push(
-        vscode.commands.registerCommand('vue-twig.find-usage', () => findUsage(twigComponentUsageParser, phpParser)),
-        vscode.commands.registerCommand('vue-twig.get-affected-routes', () => getAffectedRoutesCommand(twigComponentUsageParser, phpParser)),
+        vscode.commands.registerCommand('twig-tools.find-usage', () => findUsage(twigComponentUsageParser, phpParser)),
+        vscode.commands.registerCommand('twig-tools.get-affected-routes', () => getAffectedRoutesCommand(twigComponentUsageParser, phpParser)),
     );
 });
 

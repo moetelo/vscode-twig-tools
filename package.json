@@ -1,6 +1,6 @@
 {
-  "name": "vue-twig",
-  "displayName": "vue-twig",
+  "name": "twig-tools",
+  "displayName": "twig-tools",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -51,11 +51,11 @@
     ],
     "commands": [
       {
-        "command": "vue-twig.find-usage",
+        "command": "twig-tools.find-usage",
         "title": "Twig: Find Vue component usage in php"
       },
       {
-        "command": "vue-twig.get-affected-routes",
+        "command": "twig-tools.get-affected-routes",
         "title": "Twig: Get affected routes"
       }
     ]
