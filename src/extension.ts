@@ -10,6 +10,7 @@ import { getAffectedRoutesCommand } from './commands/getAffectedRoutes';
 import { createTwigHoverProvider } from './providers/hover';
 import { createTwigCompletionProviders } from './providers/completion';
 import { createPhpTwigDefinitionProvider } from './providers/definition';
+import { createTwigToTwigDefinitionProvider } from './providers/definition/twigToTwigDefinitionProvider';
 
 
 export const activate = (context: vscode.ExtensionContext) => vscode.window.withProgress({
@@ -21,9 +22,11 @@ export const activate = (context: vscode.ExtensionContext) => vscode.window.with
 
     const PROJECT_DIR = vscode.workspace.workspaceFolders[0].uri.fsPath;
 
-    reportProgress('registering hardcoded providers');
-
-    context.subscriptions.push(createTwigHoverProvider());
+    reportProgress('registering lightweight providers');
+    context.subscriptions.push(
+        createTwigHoverProvider(),
+        createTwigToTwigDefinitionProvider(),
+    );
 
     reportProgress('registering twig completion provider');
     context.subscriptions.push(...await createTwigCompletionProviders());
